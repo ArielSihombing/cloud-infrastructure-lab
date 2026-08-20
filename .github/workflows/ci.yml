@@ -32,3 +32,17 @@ jobs:
       - name: Health check test (basic import test)
         run: |
           python -c "import main; print('main.py imports successfully')"
+
+  docker-build:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t cloud-lab-app:${{ github.sha }} .
+
+      - name: Verify image created
+        run: docker images | grep cloud-lab-app
