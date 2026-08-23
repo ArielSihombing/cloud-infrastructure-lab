@@ -1,0 +1,12 @@
+---
+- name: Apply Node Exporter to all servers
+  hosts: all
+  become: yes
+  roles:
+    - node_exporter
+
+- name: Apply Security Hardening to all servers
+  hosts: all
+  become: yes
+  roles:
+    - security

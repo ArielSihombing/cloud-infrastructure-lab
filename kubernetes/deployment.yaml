@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deployment
+  namespace: cloud-lab
+  labels:
+    app: fastapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+        - name: fastapi
+          image: python:3.10-slim
+          command: ["/bin/sh", "-c"]
+          args:
+            - pip install fastapi uvicorn --quiet && uvicorn main:app --host 0.0.0.0 --port 8000
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: code
+              mountPath: /main.py
+              subPath: main.py
+          workingDir: /
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"
+      volumes:
+        - name: code
+          configMap:
+            name: fastapi-code

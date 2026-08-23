@@ -1,0 +1,82 @@
+---
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+
+- name: Allow Node Exporter port (internal monitoring)
+  ufw:
+    rule: allow
+    port: '9100'
+    proto: tcp
+    src: 10.10.20.0/24
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+
+- name: Disable SSH root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin'
+    line: 'PermitRootLogin no'
+  notify: restart sshd
+
+- name: Disable SSH password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication'
+    line: 'PasswordAuthentication no'
+  notify: restart sshd
+
+- name: Allow HTTP (Nginx/HAProxy)
+  ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: Allow FastAPI application port
+  ufw:
+    rule: allow
+    port: '8000'
+    proto: tcp
+    src: 10.10.20.0/24
+
+- name: Allow PostgreSQL (db-01 only)
+  ufw:
+    rule: allow
+    port: '5432'
+    proto: tcp
+    src: 10.10.20.0/24
+  when: inventory_hostname == 'db-01'
+
+- name: Allow Grafana (monitor-01 only)
+  ufw:
+    rule: allow
+    port: '3000'
+    proto: tcp
+  when: inventory_hostname == 'monitor-01'
+
+- name: Allow Prometheus (monitor-01 only)
+  ufw:
+    rule: allow
+    port: '9090'
+    proto: tcp
+    src: 10.10.20.0/24
+  when: inventory_hostname == 'monitor-01'
+
+- name: Allow Loki (monitor-01 only)
+  ufw:
+    rule: allow
+    port: '3100'
+    proto: tcp
+    src: 10.10.20.0/24
+  when: inventory_hostname == 'monitor-01'

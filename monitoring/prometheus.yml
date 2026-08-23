@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets:
+          - '10.10.10.5:9100'    # infra-01
+          - '10.10.10.10:9100'   # lb-01
+          - '10.10.20.11:9100'   # web-01
+          - '10.10.20.12:9100'   # web-02
+          - '10.10.20.21:9100'   # app-01
+          - '10.10.20.31:9100'   # db-01
+          - '10.10.20.41:9100'   # monitor-01
+        labels:
+          environment: 'lab'

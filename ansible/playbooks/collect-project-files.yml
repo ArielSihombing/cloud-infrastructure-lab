@@ -1,0 +1,65 @@
+---
+- name: Fetch application code from app-01
+  hosts: app-01
+  become: no
+  tasks:
+    - name: Fetch main.py
+      fetch:
+        src: /home/ariel/app/main.py
+        dest: /home/ariel/cloud-infrastructure-lab/application/main.py
+        flat: yes
+    - name: Fetch requirements.txt
+      fetch:
+        src: /home/ariel/app/requirements.txt
+        dest: /home/ariel/cloud-infrastructure-lab/application/requirements.txt
+        flat: yes
+    - name: Fetch Dockerfile
+      fetch:
+        src: /home/ariel/app/Dockerfile
+        dest: /home/ariel/cloud-infrastructure-lab/docker/Dockerfile
+        flat: yes
+
+- name: Fetch Nginx configs from web servers
+  hosts: web-01,web-02
+  become: yes
+  tasks:
+    - name: Fetch nginx config
+      fetch:
+        src: /etc/nginx/sites-available/default
+        dest: "/home/ariel/cloud-infrastructure-lab/docs/nginx-{{ inventory_hostname }}.conf"
+        flat: yes
+
+- name: Fetch HAProxy config from lb-01
+  hosts: lb-01
+  become: yes
+  tasks:
+    - name: Fetch haproxy config
+      fetch:
+        src: /etc/haproxy/haproxy.cfg
+        dest: /home/ariel/cloud-infrastructure-lab/docs/haproxy.cfg
+        flat: yes
+
+- name: Fetch monitoring configs from monitor-01
+  hosts: monitor-01
+  become: yes
+  tasks:
+    - name: Fetch prometheus config
+      fetch:
+        src: /etc/prometheus/prometheus.yml
+        dest: /home/ariel/cloud-infrastructure-lab/monitoring/prometheus.yml
+        flat: yes
+    - name: Fetch loki config
+      fetch:
+        src: /etc/loki/loki-config.yaml
+        dest: /home/ariel/cloud-infrastructure-lab/logging/loki-config.yaml
+        flat: yes
+
+- name: Fetch promtail config from app-01
+  hosts: app-01
+  become: yes
+  tasks:
+    - name: Fetch promtail config
+      fetch:
+        src: /etc/promtail/promtail-config.yaml
+        dest: /home/ariel/cloud-infrastructure-lab/logging/promtail-config.yaml
+        flat: yes

@@ -1,0 +1,49 @@
+---
+- name: Apply security hardening to infra-01
+  hosts: infra
+  become: yes
+  connection: local
+  tasks:
+    - name: Ensure UFW is installed
+      apt:
+        name: ufw
+        state: present
+        update_cache: yes
+
+    - name: Allow SSH
+      ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Allow DNS (TCP+UDP) from lab networks
+      ufw:
+        rule: allow
+        port: '53'
+        proto: "{{ item }}"
+        src: 10.10.20.0/24
+      loop:
+        - tcp
+        - udp
+
+    - name: Allow DNS from management network
+      ufw:
+        rule: allow
+        port: '53'
+        proto: "{{ item }}"
+        src: 10.10.10.0/24
+      loop:
+        - tcp
+        - udp
+
+    - name: Allow Node Exporter port
+      ufw:
+        rule: allow
+        port: '9100'
+        proto: tcp
+        src: 10.10.20.0/24
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+        policy: deny

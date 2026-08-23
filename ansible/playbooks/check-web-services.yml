@@ -1,0 +1,28 @@
+---
+- name: Check Nginx status on web servers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure Nginx is running
+      systemd:
+        name: nginx
+        state: started
+      register: nginx_status
+
+    - name: Show Nginx status
+      debug:
+        var: nginx_status.status.ActiveState
+
+- name: Check HAProxy status on load balancer
+  hosts: loadbalancer
+  become: yes
+  tasks:
+    - name: Ensure HAProxy is running
+      systemd:
+        name: haproxy
+        state: started
+      register: haproxy_status
+
+    - name: Show HAProxy status
+      debug:
+        var: haproxy_status.status.ActiveState
