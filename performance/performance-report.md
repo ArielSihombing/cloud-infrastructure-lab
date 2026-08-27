@@ -69,4 +69,4 @@ Sesuai rencana awal project (`app-02`, opsional): tambah instance kedua untuk `a
 
 ## 6. Kesimpulan
 
-Arsitektur HA (HAProxy + dual Nginx + FastAPI) berhasil mempertahankan **ketersediaan 100%** di bawah tiga skenario beban berbeda, termasuk lonjakan traffic mendadak — capaian utama yang dituju project ini. Latency pada beban tinggi menunjukkan ruang optimasi (khususnya di tier aplikasi), namun ini konsisten dengan keterbatasan resource lab yang telah didokumentasikan sepanjang project (lihat `docs/networking-updated.md`, `docs/SECURITY.md`), bukan cacat desain.
+Arsitektur HA (HAProxy + dual Nginx + FastAPI) berhasil mempertahankan **ketersediaan 100%** di bawah tiga skenario beban berbeda, termasuk lonjakan traffic mendadak — capaian utama yang dituju project ini. Latency pada beban tinggi menunjukkan ruang optimasi (khususnya di tier aplikasi), namun ini konsisten dengan keterbatasan resource lab yang telah didokumentasikan sepanjang project (`docs/networking-updated.md`, `docs/SECURITY.md`), bukan cacat desain.
