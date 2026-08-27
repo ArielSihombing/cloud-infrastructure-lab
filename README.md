@@ -159,7 +159,7 @@ k6 dipakai untuk 3 skenario traffic (Normal 5 VU, High 50 VU, Burst 100 VU) terh
 
 ## 18. Future Improvements
 
-- [ ] Phase 10 — AWS (VPC, EC2, IAM, S3, CloudWatch) — tertunda karena kartu pembayaran belum tersedia
+- [ ] Phase 10 — AWS (VPC, EC2, IAM, S3, CloudWatch) 
 - [ ] Multi-node K3s cluster
 - [ ] TLS/HTTPS untuk seluruh traffic web
 - [ ] WAL archiving PostgreSQL untuk RPO database yang lebih ketat
