@@ -97,9 +97,3 @@ Namun, pola ini **belum sepenuhnya antisipatif ke komponen yang baru ditambahkan
 - **Flat network dengan gateway terpusat** (`infra-01` sebagai NAT gateway multi-homed) dipilih menggantikan rencana awal (VMnet terpisah per segment dengan router dedicated), karena keterbatasan VMware Workstation Player. Detail di `docs/networking-updated.md`.
 - **Passwordless sudo untuk automation** — trade-off sadar demi kemudahan Ansible playbook berjalan tanpa interaksi manual; risiko dianggap dapat diterima karena akses SSH sendiri sudah dibatasi key-only dan lab tidak terekspos ke internet publik.
 
-## 7. Rencana Selanjutnya (Belum Diimplementasikan)
-
-- [ ] Fail2ban untuk proteksi brute-force SSH tambahan (saat ini sudah cukup aman lewat key-only auth, tapi fail2ban akan jadi lapisan defense-in-depth tambahan).
-- [ ] Audit dan hardening untuk `app-01`, `db-01`, `monitor-01` — tertunda karena VM belum menyala konsisten selama development; role Ansible sudah siap dan tinggal dijalankan begitu VM tersebut aktif kembali.
-- [ ] TLS/HTTPS untuk traffic HTTP (saat ini semua traffic web masih HTTP plain, sesuai keputusan awal project untuk fokus pada infrastruktur dasar terlebih dahulu).
-- [ ] IAM least-privilege policy untuk AWS (Phase 10, belum dikerjakan).
