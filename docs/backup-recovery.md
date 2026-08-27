@@ -102,10 +102,4 @@ Proses restore database (kalau dibutuhkan) akan mengikuti pola:
 zcat labapp_<timestamp>.sql.gz | ssh ariel@10.10.20.31 "PGPASSWORD=ariel psql -h localhost -U labuser labapp"
 ```
 
-## 8. Rencana Selanjutnya
 
-- [x] Audit port UFW di semua VM aktif — selesai, temuan didokumentasikan di `docs/SECURITY.md`.
-- [x] Backup database `db-01` (pg_dump terjadwal) — selesai, terverifikasi.
-- [ ] Restore test khusus database (simulasi kegagalan PostgreSQL sungguhan, bukan cuma verifikasi isi dump).
-- [ ] Backup ke remote storage (S3) sebagai opsi tambahan, sesuai rencana awal project (tertunda bersama Phase 10 — AWS, menunggu kartu pembayaran tersedia).
-- [x] Terapkan Ansible role (Node Exporter + Security) ke `db-01` dan `monitor-01` — selesai.
