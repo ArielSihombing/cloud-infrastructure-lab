@@ -1,20 +1,29 @@
 # Incident Log — Cloud Infrastructure & High Availability Lab
 
-Seluruh incident di bawah ini **nyata**, ditemukan secara organik selama proses membangun infrastruktur (bukan simulasi terjadwal), kecuali Incident 007 yang memang dirancang sebagai demonstrasi terkontrol untuk membuktikan mekanisme High Availability.
+Folder ini berisi **13 laporan insiden total**, terbagi dua kategori:
+
+- **001–006**: Runbook simulasi terencana (sesuai skenario troubleshooting standar dari brief awal project). Berformat prosedur siap-eksekusi dengan bagian "Actual Result" untuk diisi begitu benar-benar dijalankan.
+- **007–013**: Insiden **nyata** yang ditemukan secara organik selama proses membangun infrastruktur (kecuali 007 yang memang simulasi terkontrol untuk demonstrasi HA), lengkap dengan command dan output asli.
 
 ## Ringkasan
 
-| # | Judul | Severity | Kategori | Status |
-|---|---|---|---|---|
-| [007](incident-007-web-server-down.md) | Web Server Down (simulasi HA) | Low | Availability | ✅ Resolved |
-| [008](incident-008-healthcheck-misconfiguration.md) | HAProxy Health Check Misconfiguration | High | Load Balancer | ✅ Resolved |
-| [009](incident-009-firewall-port80-blocked.md) | Port 80 Terblokir UFW | High | Firewall | ✅ Resolved |
-| [010](incident-010-ufw-forward-policy-nat-gateway.md) | UFW Forward Policy Memblokir NAT Gateway | Critical | Firewall / Gateway | ✅ Resolved |
-| [011](incident-011-firewall-port8000-fastapi.md) | Port 8000 (FastAPI) Belum Diizinkan | High | Firewall | ✅ Resolved |
-| [012](incident-012-firewall-port3100-loki.md) | Port 3100 (Loki) Belum Diizinkan | Medium | Firewall / Logging | ✅ Resolved |
-| [013](incident-013-infra01-node-exporter-firewall.md) | Port 9100 di infra-01 Terlewat dari Playbook Terpisah | Medium | Firewall / Observability | ✅ Resolved |
+| # | Judul | Tipe | Severity | Kategori | Status |
+|---|---|---|---|---|---|
+| [001](incident-001-nginx-down.md) | Nginx Down | Runbook | — | Web Server | 📋 Siap dijalankan |
+| [002](incident-002-disk-full.md) | Disk Penuh | Runbook | — | Storage | 📋 Siap dijalankan |
+| [003](incident-003-high-cpu.md) | CPU Tinggi | Runbook | — | Compute | 📋 Siap dijalankan |
+| [004](incident-004-high-memory.md) | Memory Tinggi | Runbook | — | Compute | 📋 Siap dijalankan |
+| [005](incident-005-database-down.md) | Database Down | Runbook | — | Database | 📋 Siap dijalankan |
+| [006](incident-006-dns-failure.md) | DNS Failure | Runbook | — | Networking | 📋 Siap dijalankan |
+| [007](incident-007-web-server-down.md) | Web Server Down (simulasi HA) | Nyata | Low | Availability | ✅ Resolved |
+| [008](incident-008-healthcheck-misconfiguration.md) | HAProxy Health Check Misconfiguration | Nyata | High | Load Balancer | ✅ Resolved |
+| [009](incident-009-firewall-port80-blocked.md) | Port 80 Terblokir UFW | Nyata | High | Firewall | ✅ Resolved |
+| [010](incident-010-ufw-forward-policy-nat-gateway.md) | UFW Forward Policy Memblokir NAT Gateway | Nyata | Critical | Firewall / Gateway | ✅ Resolved |
+| [011](incident-011-firewall-port8000-fastapi.md) | Port 8000 (FastAPI) Belum Diizinkan | Nyata | High | Firewall | ✅ Resolved |
+| [012](incident-012-firewall-port3100-loki.md) | Port 3100 (Loki) Belum Diizinkan | Nyata | Medium | Firewall / Logging | ✅ Resolved |
+| [013](incident-013-infra01-node-exporter-firewall.md) | Port 9100 di infra-01 Terlewat dari Playbook Terpisah | Nyata | Medium | Firewall / Observability | ✅ Resolved |
 
-## Pola yang Ditemukan
+## Pola yang Ditemukan (dari 7 Insiden Nyata)
 
 Lima dari tujuh insiden (009, 010, 011, 012, 013) berakar dari sebab yang berkaitan: **penerapan firewall default-deny (UFW) lewat Ansible tanpa audit port yang lengkap atau konsisten di setiap service/playbook**. Ini menjadi pelajaran paling berharga dari seluruh project — dirangkum di `docs/SECURITY.md`:
 
