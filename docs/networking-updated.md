@@ -86,6 +86,4 @@ allow-query {
 };
 ```
 
-## Interview Talking Point
 
-Topologi ini bagus untuk dijelaskan sebagai **adaptasi arsitektur akibat keterbatasan tooling** — poin penting yang sering ditanyakan di interview: *"Ceritakan saat kamu harus mengubah rencana teknis karena keterbatasan resource/tools."* Jawabannya: rencana awal pakai router/VMnet terpisah per segment, tapi VMware Workstation Player tidak mendukung itu — solusinya menjadikan satu VM (`infra-01`) sebagai gateway terpusat (NAT + DNS multi-homed), pola yang sebenarnya mencerminkan **NAT Gateway di AWS VPC** untuk private subnet, jadi tetap relevan secara konsep meski implementasinya manual.
